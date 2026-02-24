@@ -1,0 +1,267 @@
+# 📘 Task Management API (For Learning)
+
+This project is a simple **Task Management REST API** built using:
+
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+
+The purpose of this project is to understand:
+
+* How backend servers work
+* How APIs are created
+* How Express routing works
+* How MongoDB connects with Node.js
+* How MVC structure is organized
+
+---
+
+# 🎯 What This Project Does
+
+This API allows you to:
+
+* Create a task
+* Get all tasks
+* Get a single task
+* Update a task
+* Delete a task
+
+All data is stored inside **MongoDB database**.
+
+---
+
+# 🧠 How the Project Works (Step-by-Step Flow)
+
+When you send a request (for example: `GET /api/tasks`), this is what happens:
+
+```
+Client (Postman / Browser)
+        ↓
+Routes
+        ↓
+Controller
+        ↓
+Model
+        ↓
+MongoDB
+        ↓
+Response back to Client
+```
+
+Now let's understand each part clearly.
+
+---
+
+# 📂 Project Structure Explained
+
+```
+.
+├── config/
+│   └── db.js
+├── controllers/
+│   └── taskController.js
+├── models/
+│   └── Task.js
+├── routes/
+│   └── taskRoutes.js
+├── .env
+├── server.js
+├── package.json
+└── README.md
+```
+
+---
+
+# 📌 1️⃣ server.js (Entry Point)
+
+This is the main file.
+
+It does 5 important things:
+
+1. Imports required packages
+2. Connects to MongoDB
+3. Adds middleware (like express.json())
+4. Registers routes
+5. Starts the server
+
+Example idea:
+
+```js
+app.use(express.json())
+app.use("/api/tasks", taskRoutes)
+```
+
+This means:
+
+Any request starting with `/api/tasks` will go to `taskRoutes`.
+
+---
+
+# 📌 2️⃣ config/db.js (Database Connection)
+
+This file connects your application to MongoDB using Mongoose.
+
+It uses:
+
+```js
+mongoose.connect(process.env.MONGO_URI)
+```
+
+Without this connection, your app cannot store or fetch data.
+
+---
+
+# 📌 3️⃣ models/Task.js (Database Schema)
+
+This file defines the structure of a Task.
+
+Example:
+
+```js
+{
+  title: String,
+  description: String,
+  status: String
+}
+```
+
+Think of this like a blueprint for your data.
+
+Mongoose uses this model to:
+
+* Create documents
+* Read documents
+* Update documents
+* Delete documents
+
+---
+
+# 📌 4️⃣ routes/taskRoutes.js (Routing Layer)
+
+This file defines API endpoints.
+
+Example:
+
+```js
+router.get("/", getTasks)
+router.post("/", createTask)
+```
+
+It connects:
+
+Route → Controller Function
+
+Routes do NOT contain logic.
+They just decide where the request should go.
+
+---
+
+# 📌 5️⃣ controllers/taskController.js (Business Logic)
+
+This file contains actual logic.
+
+Example:
+
+```js
+const tasks = await Task.find()
+res.json(tasks)
+```
+
+Controller:
+
+* Talks to Model
+* Gets data from MongoDB
+* Sends response back to user
+
+This is where most backend logic lives.
+
+---
+
+# 🔁 Example Request Flow (Create Task)
+
+When you send:
+
+```
+POST /api/tasks
+```
+
+This happens:
+
+1. Request hits server.js
+2. Goes to taskRoutes.js
+3. Route calls createTask controller
+4. Controller uses Task model
+5. Model saves data to MongoDB
+6. Response is sent back
+
+---
+
+# 🛠 How to Run This Project
+
+### 1️⃣ Install dependencies
+
+```
+npm install
+```
+
+### 2️⃣ Create .env file
+
+```
+PORT=5000
+MONGO_URI=mongodb://127.0.0.1:27017/taskDB
+```
+
+### 3️⃣ Start MongoDB
+
+Make sure MongoDB is running.
+
+### 4️⃣ Run the server
+
+```
+npm start
+```
+
+Server will run on:
+
+```
+http://localhost:5000
+```
+
+---
+
+# 📡 API Endpoints
+
+| Method | Endpoint       | Description     |
+| ------ | -------------- | --------------- |
+| POST   | /api/tasks     | Create task     |
+| GET    | /api/tasks     | Get all tasks   |
+| GET    | /api/tasks/:id | Get single task |
+| PUT    | /api/tasks/:id | Update task     |
+| DELETE | /api/tasks/:id | Delete task     |
+
+---
+
+# 💡 What You Learn From This Project
+
+* What is REST API
+* What is MVC architecture
+* How Express routing works
+* How MongoDB stores data
+* How Mongoose interacts with database
+* How request-response cycle works
+
+---
+
+# 🚀 Next Steps (For Learning)
+
+After understanding this project, try:
+
+* Add validation
+* Add error handling middleware
+* Add pagination
+* Add authentication (JWT)
+* Deploy to cloud
+* Build a frontend to consume this API
+
+
